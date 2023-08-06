@@ -1,17 +1,50 @@
-import React from 'react'
-import {TextInput, Button, View, StyleSheet} from 'react-native'
+import React, { useState } from 'react'
+import {TextInput, Button, View, StyleSheet, Alert} from 'react-native'
 import PrimaryButton from '../components/PrimaryButton'
+import Colors from '../constants/colors'
 
-const StartGameScreen = () => {
+const StartGameScreen = ({onPickNumber}) => {
+
+    const [enteredNumber, setEnteredNumber] = useState('')
+
+    const numberInputHandler = (enteredText) => {
+        setEnteredNumber(enteredText);
+    }
+
+    const resetInputHandler = () => {
+        setEnteredNumber('')
+    }
+
+    const confirmInputHandler = () => {
+        const chosenNumber = parseInt(enteredNumber);
+
+        if(isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99){
+            // show alert
+            Alert.alert('Invalid number!', 'Number has to be a number between 1 and 90', [{
+                text: 'Okay', style: 'destructive', onPress: resetInputHandler
+            }])
+            return;
+        }
+
+        onPickNumber(chosenNumber);
+    }
+
     return (
         <View style={styles.inputContainer}>
-            <TextInput style={styles.numberInput} maxLength={2} keyboardType='number-pad' autoCapitalize='none' autoCorrect={false}/>
+            <TextInput 
+                style={styles.numberInput} 
+                maxLength={2} 
+                keyboardType='number-pad' 
+                autoCapitalize='none' 
+                autoCorrect={false}
+                onChangeText={numberInputHandler}
+                value={enteredNumber}/>
             <View style={styles.buttonsContainer}>
                 <View style={styles.buttonContainer}>
-                    <PrimaryButton>Reset</PrimaryButton>
+                    <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <PrimaryButton>Confirm</PrimaryButton>
+                    <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
                 </View>
             </View>
         </View>
@@ -27,7 +60,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 24,
         marginTop: 100,
         padding: 16,
-        backgroundColor: '#6528F7',
+        backgroundColor: Colors.primary800,
         borderRadius: 8,
         elevation: 4,
 
@@ -44,9 +77,9 @@ const styles = StyleSheet.create({
         height: 50,
         width: 50,
         fontSize: 32,
-        borderBottomColor: '#ddb52f',
+        borderBottomColor: Colors.accent500,
         borderBottomWidth: 2,
-        color: '#ddb52f',
+        color: Colors.accent500,
         marginVertical: 8,
         fontWeight: 'bold',
         textAlign: 'center',
