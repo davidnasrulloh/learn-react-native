@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import Title from '../components/ui/Title';
+import { useFonts } from "expo-font";
+import {Ionicons} from "@expo/vector-icons"
 import NumberContainer from '../components/game/NumberContainer';
 import PrimaryButton from './../components/ui/PrimaryButton';
 import Card from './Card';
@@ -59,10 +61,14 @@ const GameScreen = ({userNumber, onGameOver}) => {
                 <InstructionText style={styles.instructionText}>Higher or lower?</InstructionText>
                 <View style={styles.buttonsContainer}>
                     <View style={styles.buttonContainer}>
-                        <PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')}> - </PrimaryButton>
+                        <PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')}>
+                            <Ionicons name="md-remove-circle" size={24} color="black" />
+                        </PrimaryButton>
                     </View>
                     <View style={styles.buttonContainer}>
-                        <PrimaryButton onPress={nextGuessHandler.bind(this, 'greater')}> + </PrimaryButton>
+                        <PrimaryButton onPress={nextGuessHandler.bind(this, 'greater')}>
+                            <Ionicons name="md-add-circle" size={24} color="black" />
+                        </PrimaryButton>
                     </View>
                 </View>
             </Card>
